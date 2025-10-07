@@ -5,6 +5,7 @@ import { RequestAirDrop } from "./Airdrop";
 import { ShowUserBalance } from "./ShowUserBalace";
 import { SendTokens } from "./SendToken";
 import { TokenLaunchPad } from "./TokenLaunchPad/Launchpad";
+import { Swap } from "./Swap/Swap";
 
 function App() {
  //const network = WalletAdapterNetwork.Testnet;
@@ -21,6 +22,7 @@ function App() {
             <ShowUserBalance/>
             <SendTokens/>
             <TokenLaunchPad/>
+            <Swap/>
           </div>
         </WalletModalProvider>
       </WalletProvider>
