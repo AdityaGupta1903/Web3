@@ -11,7 +11,7 @@ export const TokenLaunchPad = () => {
   const getTransaction = async () => {
     /// Creating the mint First
     const MinimumBalanceForRentExcemption =
-      await token.getMinimumBalanceForRentExemptAccount(connection);
+    await token.getMinimumBalanceForRentExemptAccount(connection);
     let accountKeyPair = web3.Keypair.generate();  /// New Account Public Private Key
     const transaction = new web3.Transaction().add(
       web3.SystemProgram.createAccount({
