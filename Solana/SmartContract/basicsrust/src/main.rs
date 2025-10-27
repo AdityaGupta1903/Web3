@@ -163,6 +163,20 @@ fn main() {
 
     /** Using Borsh Serialize and DeSerialize */
     TestBorshSerialize();
+
+    /** Using LifeTimes*/
+    let s1 = String::from("Aditya122");
+    let ans:&String;
+    {
+        let s2 = String::from("x0adksakdpasdzx00psdadpasd");
+        ans = return_Longest_String(&s1,&s2);
+    }
+    print!("{}",s1);
+
+    /** Using Stuct with LifeTimes */
+    let username = String::from("guptaditya19@gmail.com");
+    let password = String::from("Random_Password");
+    let UserStructWithLifeTime = UserStructWithLifeTime{ username:&username, password:&password };
 }
 
 fn CalculateArea(shape: Shape) -> u32 {
@@ -264,3 +278,24 @@ fn TestBorshSerialize() {
     let user = BorshStruct::try_from_slice(&v).unwrap();
     println!("Deserailized Struct is {:?}", user);
 }
+
+
+// LifeTimes in functions
+
+fn return_Longest_String<'a, 'b>(s1:&'a String,s2:&'b String)-> &'a String{  /// 'a and 'b are the lifetimes of the input variables. In this we have told compiler that the string s2 is valid till the end
+    if(s1.len()>s2.len()){
+        return s1;
+    }
+    else{
+        // return s2; can't return s2 from here because of lifetime expiration
+        return s1; 
+    }
+}
+
+// LifeTimes for Struct
+
+struct UserStructWithLifeTime<'a>{ /// This Struct will take the smaller one variable lifetime
+    username : &'a String,
+    password : &'a String
+}
+
