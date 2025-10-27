@@ -23,7 +23,9 @@
 // print!("{:?}",v);
 // }
 
+use borsh::{BorshDeserialize, BorshSerialize};
 use chrono::prelude::*;
+use serde::{Deserialize, Serialize};
 use std::fmt::Display;
 use std::ops::Mul;
 /// Loops
@@ -130,7 +132,7 @@ use std::ops::Mul;
 // }
 use std::process::Output;
 // Exercise on Enum
-use std::usize;
+use std::{string, usize};
 enum Shape {
     Rectangle(u32, u32),
     Square(u32),
@@ -155,6 +157,12 @@ fn main() {
 
     /** Use the Trait */
     print_details(1123, 2122);
+
+    /** Using Serialized and DeSerialize Library */
+    useSerializeLibrary();
+
+    /** Using Borsh Serialize and DeSerialize */
+    TestBorshSerialize();
 }
 
 fn CalculateArea(shape: Shape) -> u32 {
@@ -191,14 +199,68 @@ struct Rect<T> {
     width: T,
 }
 
+// traits in rust (Just like interfaces in Typescript)
+trait shape<T> {
+    fn area(&self) -> T;
+}
+
 impl<T: Mul<Output = T> + Copy> shape<T> for Rect<T> {
     fn area(&self) -> T {
         return (self.height) * (self.width);
     }
 }
 
-// traits in rust (Just like interfaces in Typescript)
+// Declarative macro
+// println is a declarative macro
+macro_rules! SayHello {
+    () => {
+        print!("Hell")
+    };
+}
 
-trait shape<T> {
-    fn area(&self) -> T;
+fn execute_macro() {
+    SayHello!();
+}
+
+/// implementing Serialization and DeSerialization using Serder
+
+#[derive(Serialize, Deserialize, Debug)]
+struct User {
+    username: String,
+    password: String,
+}
+
+fn useSerializeLibrary() {
+    let mut user = User {
+        password: String::from("Aditya"),
+        username: String::from("Aditya"),
+    };
+    let serializedstring = serde_json::to_string(&user);
+    println!("Serialized String is");
+    println!("{:?}", serializedstring.unwrap());
+}
+
+/// Using Borsh Serialize and DeSerialize Library]
+
+#[derive(BorshDeserialize, BorshSerialize, Debug)]
+struct BorshStruct {
+    id: u64,
+    data: String,
+    v: Vec<u64>,
+}
+
+fn TestBorshSerialize() {
+    let borshstruct = BorshStruct {
+        id: 1,
+        data: String::from("Aditya"),
+        v: vec![1, 2, 3],
+    };
+
+    let mut v = Vec::new();
+    let borshserialize = borshstruct.serialize(&mut v).unwrap();
+    println!("Serialized Struct is {:?}", v);
+
+    /// Deserializing the same thing
+    let user = BorshStruct::try_from_slice(&v).unwrap();
+    println!("Deserailized Struct is {:?}", user);
 }
