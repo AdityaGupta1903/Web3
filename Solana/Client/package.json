@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@coral-xyz/borsh": "^0.32.1"
+  }
+}

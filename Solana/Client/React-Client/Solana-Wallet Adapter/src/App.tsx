@@ -9,7 +9,8 @@ import { Swap } from "./Swap/Swap";
 
 function App() {
  //const network = WalletAdapterNetwork.Testnet;
- const endpoint = "https://api.devnet.solana.com";
+//  const endpoint = "https://api.devnet.solana.com";
+    const endpoint = "http://localhost:8899"
 
   return (
     <ConnectionProvider endpoint={endpoint}>
